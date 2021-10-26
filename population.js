@@ -5,7 +5,7 @@ class Population {
         this.popsize = 100;
 
         for(let i=0;i<this.popsize;i++) {
-            this.rockets.push(new Rocket);
+            this.rockets.push(new Rocket());
         }
 
     }
