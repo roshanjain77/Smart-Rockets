@@ -24,6 +24,17 @@ class Rocket {
             this.pos = target.copy();
         }
 
+        for(let obstacle of obstacles) {
+            if(this.pos.x > obstacle[0] && this.pos.x < obstacle[0] + obstacle[2] && this.pos.y > obstacle[1] && this.pos.y < obstacle[1] + obstacle[3]) {
+                this.stuck = true;
+                break;
+            }
+        }
+
+        if(this.pos.x < 0 || this.pos.x > width || this.pos.y < 0 || this.pos.y > height) {
+            this.stuck = true;
+        }
+
         this.applyForce(this.dna.genes[cnt]);
 
         if(!this.completed && !this.stuck) {
@@ -36,6 +47,10 @@ class Rocket {
     calcFitness() {
         let d = dist(this.pos.x, this.pos.y, target.x, target.y);
         this.fitness = 1 / (d + 0.01) + (lifespan - this.time);
+
+        if(this.stuck) {
+            this.fitness /= 10;
+        }
     }
 
     show() {
