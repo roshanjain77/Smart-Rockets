@@ -8,7 +8,7 @@ function setup() {
     createCanvas(400, 400);
     population = new Population();
     lifeP = createP();
-    target = createVector(10, 10);
+    target = new Target(10, 10);
 }
 
 function draw() {
@@ -23,5 +23,40 @@ function draw() {
         cnt = 0;
     } 
 
-    ellipse(target.x, target.y, 16, 16);
+    target.show();
+}
+
+function mousePressed() {
+    if(target.contains(mouseX, mouseY)) {
+        console.log("ohh nooo!!");
+        target.picked = true;
+    }
+}
+
+function mouseDragged() {
+    target = new Target(mouseX, mouseY);
+}
+
+function mouseReleased() {
+    target = new Target(mouseX, mouseY);
+}
+
+class Target {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.picked = false;
+    }
+
+    contains(pointA, pointB) {
+        return dist(this.x, this.y, pointA, pointB) < 16;
+    }
+
+    show() {
+        ellipse(this.x, this.y, 16, 16);
+    }
+
+    copy() {
+        return createVector(this.x, this.y);
+    }
 }
