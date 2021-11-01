@@ -28,17 +28,21 @@ function draw() {
 
 function mousePressed() {
     if(target.contains(mouseX, mouseY)) {
-        console.log("ohh nooo!!");
         target.picked = true;
     }
 }
 
 function mouseDragged() {
-    target = new Target(mouseX, mouseY);
+    if(target.picked) {
+        target.x = mouseX;
+        target.y = mouseY;
+    }
 }
 
 function mouseReleased() {
-    target = new Target(mouseX, mouseY);
+    if(target.picked) {
+        target = new Target(mouseX, mouseY);
+    }
 }
 
 class Target {
