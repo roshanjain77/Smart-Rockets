@@ -2,12 +2,13 @@ var population;
 let lifespan = 200;
 let lifeP, target;
 let cnt = 0;
+obstracles = []
 
 function setup() {
     createCanvas(400, 400);
     population = new Population();
     lifeP = createP();
-    target = createVector(width/2, height/2);
+    target = createVector(10, 10);
 }
 
 function draw() {
@@ -17,10 +18,10 @@ function draw() {
     cnt ++;
 
     if(cnt == lifespan) {
-        population = new Population();
+        population.evaluate();
+        population.selection();
         cnt = 0;
-    }
+    } 
 
     ellipse(target.x, target.y, 16, 16);
 }
-
