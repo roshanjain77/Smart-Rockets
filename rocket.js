@@ -1,7 +1,7 @@
 class Rocket {
 
     constructor(dna) {
-        this.pos = createVector(width/2, height);
+        this.pos = startingPoint.copy();
         this.vel = createVector();
         this.acc = createVector();
         this.time = lifespan;
@@ -19,7 +19,7 @@ class Rocket {
 
     update() {
         let d = dist(this.pos.x, this.pos.y, target.x, target.y);
-        if(d < 10) {
+        if(d < 30) {
             this.completed = true;
             this.time = cnt;
             this.pos = target.copy();
@@ -47,13 +47,14 @@ class Rocket {
 
     calcFitness() {
         let d = dist(this.pos.x, this.pos.y, target.x, target.y);
-        this.fitness = 1 / (d + 0.01) + (lifespan - this.time);
+        let d2 = dist(this.pos.x, this.pos.y, startingPoint.x, startingPoint.y);
+        this.fitness = map(d, 0, 800, 800, 0) + 1 / (d+0.01) + (lifespan - this.time)**10 + d2;
 
         if(this.obstaclestuck) {
-            this.fitness /= 3;
+            this.fitness /= 10;
         }
         if(this.wallstuck) {
-            this.fitness /= 1.5;
+            this.fitness /= map(d, 0, 800, 1.01, 10);
         }
     }
 

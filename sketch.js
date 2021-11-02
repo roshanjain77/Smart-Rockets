@@ -4,11 +4,13 @@ let lifeP, target;
 let cnt = 0;
 let obstacles = [];
 let tmpobstacle = [-1, -1, -1, -1];
+let startingPoint;
 
 let restartButton, lifespanE;
 
 function setup() {
     createCanvas(400, 400);
+    startingPoint = createVector(width/2, height);
     population = new Population();
     lifeP = createP();
     target = new Target(10, 10);
