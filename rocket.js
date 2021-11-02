@@ -48,7 +48,11 @@ class Rocket {
     calcFitness() {
         let d = dist(this.pos.x, this.pos.y, target.x, target.y);
         let d2 = dist(this.pos.x, this.pos.y, startingPoint.x, startingPoint.y);
-        this.fitness = map(d, 0, 800, 800, 0) + 1 / (d+0.01) + (lifespan - this.time)**10 + d2;
+
+        let reward = 0;
+        if(this.completed) reward = 1000;
+
+        this.fitness = map(d, 0, 800, 800, 0) + 1 / (d+0.01) + (lifespan - this.time)**3 + d2 + reward;
 
         if(this.obstaclestuck) {
             this.fitness /= 10;

@@ -68,6 +68,7 @@ function mouseReleased() {
 }
 
 function showObstacles() {
+    fill(200, 0, 0);
     for(let obstacle of obstacles) {
         rect(...obstacle);
     }
@@ -86,6 +87,7 @@ class Target {
     }
 
     show() {
+        fill(255);
         ellipse(this.x, this.y, 16, 16);
     }
 
