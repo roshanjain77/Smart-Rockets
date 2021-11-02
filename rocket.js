@@ -6,7 +6,8 @@ class Rocket {
         this.acc = createVector();
         this.time = lifespan;
         this.completed = false;
-        this.stuck = false;
+        this.obstaclestuck = false;
+        this.wallstuck = false;
         if(dna) this.dna = dna;
         else this.dna = new DNA();
         this.fitness = 0;
@@ -26,18 +27,18 @@ class Rocket {
 
         for(let obstacle of obstacles) {
             if(this.pos.x > obstacle[0] && this.pos.x < obstacle[0] + obstacle[2] && this.pos.y > obstacle[1] && this.pos.y < obstacle[1] + obstacle[3]) {
-                this.stuck = true;
+                this.obstaclestuck = true;
                 break;
             }
         }
 
         if(this.pos.x < 0 || this.pos.x > width || this.pos.y < 0 || this.pos.y > height) {
-            this.stuck = true;
+            this.wallstuck = true;
         }
 
         this.applyForce(this.dna.genes[cnt]);
 
-        if(!this.completed && !this.stuck) {
+        if(!this.completed && !this.obstaclestuck && !this.wallstuck) {
             this.vel.add(this.acc);
             this.pos.add(this.vel);
             this.acc.mult(0);
@@ -48,8 +49,11 @@ class Rocket {
         let d = dist(this.pos.x, this.pos.y, target.x, target.y);
         this.fitness = 1 / (d + 0.01) + (lifespan - this.time);
 
-        if(this.stuck) {
-            this.fitness /= 10;
+        if(this.obstaclestuck) {
+            this.fitness /= 3;
+        }
+        if(this.wallstuck) {
+            this.fitness /= 1.5;
         }
     }
 

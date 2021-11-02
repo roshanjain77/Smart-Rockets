@@ -2,14 +2,24 @@ var population;
 let lifespan = 200;
 let lifeP, target;
 let cnt = 0;
-let obstacles = []
+let obstacles = [];
 let tmpobstacle = [-1, -1, -1, -1];
+
+let restartButton, lifespanE;
 
 function setup() {
     createCanvas(400, 400);
     population = new Population();
     lifeP = createP();
     target = new Target(10, 10);
+    restartButton = createButton("Restart");
+    restartButton.mousePressed(()=>{
+        population = new Population();
+        lifespan = int(lifespanE.value());
+        cnt = 0;
+    });
+
+    lifespanE = createInput("200");
 }
 
 function draw() {
@@ -18,7 +28,7 @@ function draw() {
     lifeP.html(`Time: ${cnt}`);
     cnt ++;
 
-    if(cnt == lifespan) {
+    if(cnt >= lifespan) {
         population.evaluate();
         population.selection();
         cnt = 0;
