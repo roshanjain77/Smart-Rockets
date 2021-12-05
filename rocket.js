@@ -52,23 +52,26 @@ class Rocket {
         let reward = 0;
         if(this.completed) reward = 1000;
 
-        this.fitness = map(d, 0, 800, 800, 0) + 1 / (d+0.01) + (lifespan - this.time)**3 + d2 + reward;
+        this.fitness = map(d, 0, 800, 800, 0) + 1 / (d+0.01) + (lifespan - this.time)**3 + reward;
 
         if(this.obstaclestuck) {
-            this.fitness /= 10;
+            this.fitness /= 3;
         }
         if(this.wallstuck) {
-            this.fitness /= map(d, 0, 800, 1.01, 10);
+            // this.fitness /= map(d, 0, 800, 1.01, 3);
+            this.fitness /= 2;
         }
+
+        this.fitness += d2;
     }
 
-    show() {
+    show(color = [255, 255, 255]) {
         push();
 
         translate(this.pos.x, this.pos.y);
         rotate(this.vel.heading());
         noStroke();
-        fill(255, 150);
+        fill(...color, 150);
         rectMode(CENTER);
         rect(0, 0, 20, 7);
 

@@ -25,7 +25,7 @@ class DNA {
 
     mutation() {
         for(let i=0;i<this.genes.length;i++) {
-            if(random(1) < 0.01) {
+            if(random(1) < 0.005) {
                 this.genes[i] = p5.Vector.random2D();
                 this.genes[i].setMag(0.1);
             }

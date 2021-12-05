@@ -6,13 +6,15 @@ let obstacles = [];
 let tmpobstacle = [-1, -1, -1, -1];
 let startingPoint;
 
-let restartButton, lifespanE;
+let playerRocket;
+let restartButton, lifespanE, speedS;
 
 function setup() {
     createCanvas(400, 400);
     startingPoint = createVector(width/2, height);
     population = new Population();
     lifeP = createP();
+    speedS = createSlider(1, 180, 60);
     target = new Target(10, 10);
     restartButton = createButton("Restart");
     restartButton.mousePressed(()=>{
@@ -22,22 +24,30 @@ function setup() {
     });
 
     lifespanE = createInput("200");
+    playerRocket = new Rocket();
 }
 
 function draw() {
     background(0);
-    population.run();
-    lifeP.html(`Time: ${cnt}`);
-    cnt ++;
 
-    if(cnt >= lifespan) {
-        population.evaluate();
-        population.selection();
-        cnt = 0;
+    speed = speedS.value();
+    for(let i=0;i<speed;i++) {
+        population.run();
+        cnt ++;
+
+        if(cnt >= lifespan) {
+            population.evaluate();
+            population.selection();
+            cnt = 0;
+            break;
+        }
     }
 
+    lifeP.html(`Time: ${cnt}`);
     showObstacles();
     target.show();
+    population.show();
+    // playerRocket.show(color = [100, 200, 0]);
 }
 
 function mousePressed() {
@@ -71,6 +81,19 @@ function showObstacles() {
     fill(200, 0, 0);
     for(let obstacle of obstacles) {
         rect(...obstacle);
+    }
+}
+
+function keyIsDow() {
+    if(keyCode == LEFT_ARROW) {
+        playerRocket.applyForce(createVector(0.1, 0));
+        playerRocket.update();
+    } else if (keyCode == RIGHT_ARROW) {
+        game.snake.go('right');
+    } else if (keyCode == UP_ARROW) {
+        game.snake.go('up');
+    } else if (keyCode == DOWN_ARROW) {
+        game.snake.go('down');
     }
 }
 

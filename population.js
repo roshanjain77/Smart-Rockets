@@ -49,6 +49,11 @@ class Population {
     run() {
         for(let i=0;i<this.popsize;i++) {
             this.rockets[i].update();
+        }
+    }
+
+    show() {
+        for(let i=0;i<this.popsize;i++) {
             this.rockets[i].show();
         }
     }
